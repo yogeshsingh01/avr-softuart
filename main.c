@@ -1,40 +1,16 @@
 /* 
 	AVR Software-Uart Demo-Application 
 	Version 0.4, 10/2010
-	
-	by Martin Thomas, Kaiserslautern, Germany
-	<eversmith@heizung-thomas.de>
-	http://www.siwawi.arubi.uni-kl.de/avr_projects
 */
 
 /* 
 Test environment/settings: 
 - avr-gcc 4.3.3/avr-libc 1.6.7 (WinAVR 3/2010)
-- Atmel ATmega324P @ 8MHz internal RC, ATtiny85 @ 1MHz internal RC
-- 2400bps
+- Atmel ATmega328P @ 8MHz internal RC
+- 
 */
 
 /*
-AVR Memory Usage (-Os, no-inline small-functions, relax)
-----------------
-Device: atmega324p
-
-Program:     926 bytes (2.8% Full)
-(.text + .data + .bootloader)
-
-Data:         52 bytes (2.5% Full)
-(.data + .bss + .noinit)
-
-
-AVR Memory Usage (-Os)
-----------------
-Device: attiny85
-
-Program:     828 bytes (10.1% Full)
-(.text + .data + .bootloader)
-
-Data:         52 bytes (10.2% Full)
-(.data + .bss + .noinit)
 
 */
 
@@ -74,7 +50,7 @@ int main(void)
 {
 	char c;
 	static const char pstring[] PROGMEM = 
-		"adapted for Atmel AVR and this demo by Martin Thomas\r\n";
+		"Working awesomely on atmega328p\r\n";
 	unsigned short cnt = 0;
 #if (F_CPU > 4000000UL)
 #define CNTHALLO (unsigned int)(0xFFFF)
@@ -98,12 +74,11 @@ int main(void)
 	
 	for (;;) {
 	
-		if ( softuart_kbhit() ) {
+		if ( softuart_kbhit() )//used to check whether there is any bit to receive or not
+		{
 			c = softuart_getchar();
-			softuart_putchar( '[' );
 			softuart_putchar( c );
-			softuart_putchar( ']' );
-		}
+			}
 
 		cnt++;
 		if (cnt == CNTHALLO) {
